@@ -25,7 +25,7 @@ export const createUserStatus= async (req,res)=>{
 
 export const showUserStatus= async(req,res)=>{
     try{
-        const users= await userStatusModel.findALL();
+        const users= await userStatusModel.findAll();
         res.status(200).json({
             ok:true,
             status:200,

@@ -6,7 +6,7 @@ export const createRole= async (req,res)=>{
         const dataRole=req.body;
         const createRole= await roleModel.create({
             role_name:dataRole.role_name,
-            role_descriptions:dataRole.description,
+            role_descriptions:dataRole.role_descriptions,
         });
         res.status(201).json({
             ok:true,
@@ -26,7 +26,7 @@ export const createRole= async (req,res)=>{
 export const showRole= async(req,res)=>{
     try{
         await roleModel.sync();
-        const showRoles= await roleModel.findALL();
+        const showRoles= await roleModel.findAll();
         res.status(200).json({
             ok:true,
             status:200,
@@ -73,7 +73,7 @@ export const updateRole= async (req,res)=>{
         const idRole=req.params.id;
         const updateRole= await roleModel.update({
             role_name:dataRole.role_name,
-            role_descriptions:dataRole.description,
+            role_descriptions:dataRole.role_descriptions,
         },{
             where:{
                 role_id:idRole,

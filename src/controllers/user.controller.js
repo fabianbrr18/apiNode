@@ -13,8 +13,8 @@ export const createUser= async (req,res)=>{
         const createUser= await userModel.create({
             user_user:dataUser.user_user,
             user_password:passwordHash,
-            userStatus_FK:dataUser.status,
-            role_FK:dataUser.role,
+            userStatus_FK:dataUser.userStatus_FK,
+            role_FK:dataUser.role_FK,
         });
         res.status(201).json({
             ok:true,
@@ -75,11 +75,13 @@ export const showUserId= async(req,res)=>{
 export const updateUser= async (req,res)=>{
     try{
         await userModel.sync();
+        const salt= await bcryptjs.genSalt(10);
         const idUser=req.params.id;
         const dataUser=req.body;
+        const passwordHash=await bcryptjs.hash(dataUser.user_password,salt);
         const updateUser= await userModel.update({
             user_user:dataUser.user_name,
-            user_password:dataUser.user_password,
+            user_password:passwordHash,
             userStatus_FK:dataUser.status,
             role_FK:dataUser.role,
         },{

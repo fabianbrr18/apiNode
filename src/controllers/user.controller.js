@@ -1,26 +1,29 @@
 import userModel from '../models/user.model.js';
 import { faker } from '@faker-js/faker';
+import jwt from 'jsonwebtoken';
 
 export const createUser= async (req,res)=>{
     try{
         await userModel.sync();
-        const dataUser=req.body;
+        const dataUser= req.body;
         const createUser= await userModel.create({
-            user_user:dataUser.user_name,
+            user_user:dataUser.user_user,
             user_password:dataUser.user_password,
             userStatus_FK:dataUser.status,
             role_FK:dataUser.role,
         });
+        const token = jwt.sign({email: createUser.user_user}, process.env.JWK_SECRET, { expiresIn: "1h"});
         res.status(201).json({
             ok:true,
             status:201,
             message:'Create User :)',
             id:createUser.user_id,
+            token:token
         });
     }
     catch(error){
         return res.status(500).json({
-            message:'Something went wrong in the request',
+            message:`Something went wrong in the request ${error}`,
             status:500,
         });
     }

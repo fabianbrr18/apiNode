@@ -80,7 +80,7 @@ export const updateUser= async (req,res)=>{
         const dataUser=req.body;
         const passwordHash=await bcryptjs.hash(dataUser.user_password,salt);
         const updateUser= await userModel.update({
-            user_user:dataUser.user_name,
+            user_user:dataUser.user_user,
             user_password:passwordHash,
             userStatus_FK:dataUser.status,
             role_FK:dataUser.role,
